@@ -22,6 +22,7 @@ export class AppComponent {
     'Para poderte ayudar con tu declaración voy a necesitar la siguiente información: ' +
     '\n';
   firstTimeText = '';
+  firstTimeCompanyText = '';
   join = false;
   medical = '';
   dependents = '';
@@ -43,6 +44,8 @@ export class AppComponent {
     steps: this.fb.control(''),
     expenses: this.fb.control(''),
     hasCompany: this.fb.control(''),
+    companyAccounting: ['NO'],
+    firstTimeCompany: this.fb.control(''),
   });
 
   // Opciones para el radio button declaracion conjunto
@@ -53,6 +56,12 @@ export class AppComponent {
 
   // Opciones para el radio button cantidad socios
   optionsCompany = [
+    { value: 'SI', label: 'Si' },
+    { value: 'NO', label: 'No' },
+  ];
+
+  // Opciones para el radio button de contabilidad
+  optionsAccounting = [
     { value: 'SI', label: 'Si' },
     { value: 'NO', label: 'No' },
   ];
@@ -71,6 +80,10 @@ export class AppComponent {
 
   get companyOption() {
     return this.form.get('companyOption') as FormControl;
+  }
+
+  get companyAccounting() {
+    return this.form.get('companyAccounting') as FormControl;
   }
 
   onClick() {
@@ -188,12 +201,40 @@ export class AppComponent {
         this.generalText = this.generalText + expenses;
       }
 
-      //ES UNICO SOCIO?
-      if (this.companyOption.value == 'NO') {
+      //SECCION CORPORATIVA
+
+      if (this.form.getRawValue().hasCompany) {
         this.generalText =
           this.generalText +
-          '\nInformación de la empresa: nombre de la empresa, EIN, y dirección actual' +
-          '\n\nInformación de cada socio: nombre completo, número de social, dirección, y porcentaje de participación..';
+          '\n' +
+          '\n- Información de la empresa: nombre de la empresa, EIN, y dirección actual';
+
+      //DECLARACION ANTERIOR
+      if (this.form.getRawValue().firstTimeCompany) {
+        this.firstTimeCompanyText = '\n- Copia de la declaración anterior de la empresa';
+      } else {
+        this.firstTimeCompanyText= '';
+      }
+      this.generalText = this.generalText + this.firstTimeCompanyText;
+
+
+        //ES UNICO SOCIO?
+        if (this.companyOption.value == 'NO') {
+          this.generalText =
+            this.generalText +
+            '\n- Información de cada socio: nombre completo, número de social, dirección, y porcentaje de participación';
+        }
+
+         //QUIERE CONTABILIDAD?
+         if (this.companyAccounting.value == 'SI') {
+          this.generalText =
+            this.generalText +
+            '\n- Estados de cuenta de las cuentas bancarias y tarjetas de crédito asociadas a la empresa';
+        } else {
+          this.generalText =
+          this.generalText +
+          '\n- Estados financieros o resumen de Ingresos y gastos de la empresa';
+        }
       }
 
       this.form.patchValue({

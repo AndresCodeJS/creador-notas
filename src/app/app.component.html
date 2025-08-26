@@ -228,28 +228,60 @@
           </div>
         </div>
 
-            <!-- RADIOBUTTONS EMPRESA-->
-            @if(hasCompany.value){
-              <div class="flex pl-2 mt-3">
-                <label class="form-label text-sm">Es único socio? </label>
-                <div *ngFor="let option of optionsCompany">
-                  <input
-                    type="radio"
-                    [id]="option.value"
-                    [value]="option.value"
-                    formControlName="companyOption"
-                    class="ml-2"
-                    (click)="onClick()"
-                  />
-                  <label [for]="option.value" class="text-sm ml-1">{{
-                    option.label
-                  }}</label>
-                </div>
-              </div>
-              }
+        <!-- RADIOBUTTONS EMPRESA-->
 
+        @if(hasCompany.value){
+        <div class="flex flex-col pl-2 mt-3">
+          <!-- DECLARACION ANTERIOR EMPRESA -->
+          <div class="flex justify-between">
+            <label class="form-label text-sm">Ha declarado anteriormente </label>
+            <div>
+              <input
+                type="checkbox"
+                formControlName="firstTimeCompany"
+                placeholder=""
+                class="ml-5 mt-1"
+                (click)="onClick()"
+              />
+            </div>
+          </div>
+          <!--  CANTIDAD DE SOCIOS -->
+          <div class="flex mt-2">
+            <label class="form-label text-sm">Es único socio? </label>
+            <div *ngFor="let option of optionsCompany">
+              <input
+                type="radio"
+                [id]="option.value"
+                [value]="option.value"
+                formControlName="companyOption"
+                class="ml-2"
+                (click)="onClick()"
+              />
+              <label [for]="option.value" class="text-sm ml-1">{{
+                option.label
+              }}</label>
+            </div>
+          </div>
 
-
+          <!--  QUIERE CONTABILIDAD -->
+          <div class="flex mt-2">
+            <label class="form-label text-sm">Quiere contabilidad? </label>
+            <div *ngFor="let option of optionsAccounting">
+              <input
+                type="radio"
+                [id]="option.value"
+                [value]="option.value"
+                formControlName="companyAccounting"
+                class="ml-2"
+                (click)="onClick()"
+              />
+              <label [for]="option.value" class="text-sm ml-1">{{
+                option.label
+              }}</label>
+            </div>
+          </div>
+        </div>
+        }
       </div>
     </div>
     <div class="ml-20 flex flex-col w-7/12">
