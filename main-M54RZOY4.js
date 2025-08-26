@@ -25,7 +25,7 @@ ${n.map((r,o)=>`${o+1}) ${r.toString()}`).join(`
  Informaci\xF3n de tu cuenta para devoluci\xF3n o pago de impuestos: n\xFAmero de cuenta, n\xFAmero de ruta, tipo de cuenta, nombre del banco`;this.generalText=this.generalText+n}if(this.companyOption.value=="NO"&&(this.generalText=this.generalText+`
 Informaci\xF3n de la empresa: nombre de la empresa, EIN, y direcci\xF3n actual
 
-Informaci\xF3n de cada socio: nombre completo, n\xFAmero de social, direcci\xF3n, y porcentaje de participaci\xF3n`),this.form.getRawValue().expenses){var r=`
+Informaci\xF3n de cada socio: nombre completo, n\xFAmero de social, direcci\xF3n, y porcentaje de participaci\xF3n..`),this.form.getRawValue().expenses){var r=`
 
 Te recomiendo que realices una sumatoria de todos los gastos relacionados al trabajo por 1099 que tuviste, por ejemplo, comidas, gas, telefon\xEDa, gastos relacionados al autom\xF3vil que utilizaste para trabajar o trasladarte al trabajo, gastos m\xE9dicos, y utilities. Por medio de este sumario se pueden obtener deducciones en los impuestos
  
