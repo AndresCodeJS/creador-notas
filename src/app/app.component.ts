@@ -43,9 +43,12 @@ export class AppComponent {
     information: this.fb.control(''),
     steps: this.fb.control(''),
     expenses: this.fb.control(''),
+    expensesSpouse: this.fb.control(''),
     hasCompany: this.fb.control(''),
     companyAccounting: ['NO'],
     firstTimeCompany: this.fb.control(''),
+    buyAndSell: this.fb.control(''),
+    cripto: this.fb.control(''),
   });
 
   // Opciones para el radio button declaracion conjunto
@@ -86,6 +89,14 @@ export class AppComponent {
     return this.form.get('companyAccounting') as FormControl;
   }
 
+  get f1099() {
+    return this.form.get('f1099') as FormControl;
+  }
+
+  get spouseF1099() {
+    return this.form.get('spouseF1099') as FormControl;
+  }
+
   onClick() {
     setTimeout(() => {
       console.log('resultado', this.form.getRawValue());
@@ -94,22 +105,53 @@ export class AppComponent {
 
       //DECLARACION ANTERIOR
       if (this.form.getRawValue().firstTime) {
-        this.firstTimeText = '\n - Copia de tu declaración anterior';
+        this.firstTimeText =
+          '\n- Copia de tu declaración anterior' +
+          `\n- Datos personales${
+            this.form.getRawValue().join
+              ? ' tanto tuyos como de tu ' + this.spouseOption.value
+              : ''
+          }:` +
+          ' dirección de residencia, fecha de nacimiento y correo electrónico' +
+          '\n- Información de tu cuenta para devolución o pago de impuestos: ' +
+          'número de cuenta, número de ruta, tipo de cuenta, nombre del banco';
       } else {
-        this.firstTimeText = '';
+        this.firstTimeText =
+          `\n- Datos personales${
+            this.form.getRawValue().join
+              ? ' tanto tuyos como de tu ' + this.spouseOption.value
+              : ''
+          }:` +
+          ' nombre completo, número de social, dirección de residencia, fecha de nacimiento, ocupacion y correo electrónico' +
+          /* '\n' + */
+          '\n- Información de tu cuenta para devolución o pago de impuestos: ' +
+          'número de cuenta, número de ruta, tipo de cuenta, nombre del banco';
       }
       this.generalText = this.generalText + this.firstTimeText;
+
+      //DEPENDIENTES
+      if (this.form.getRawValue().dependents) {
+        var dependents =
+          '\n' +
+          ' - De tu dependiente voy a necesitar, nombre completo, número de social security y fecha de nacimiento';
+        /*    '\n           • Nombre Completo'+
+        '\n           • Número de social security'+
+        '\n           • Fecha de nacimiento' */
+
+        this.generalText = this.generalText + dependents;
+      }
 
       //FORMAS DE INGRESO CONTACTO
       if (this.form.getRawValue().w2) {
         this.generalText =
           this.generalText +
+          '\n ' +
           `\n - Tus formas de ingreso por W2 ${
             this.form.getRawValue().f1099 ? 'y 1099' : ''
           }`;
       } else if (this.form.getRawValue().f1099) {
         this.generalText =
-          this.generalText + `\n - Tus formas de ingreso por 1099`;
+          this.generalText + `\n\n - Tus formas de ingreso por 1099`;
       }
 
       //DELCARACION CONJUNTA
@@ -152,20 +194,8 @@ export class AppComponent {
         this.medical = '';
       }
 
-      //DEPENDIENTES
-      if (this.form.getRawValue().dependents) {
-        var dependents =
-          '\n' +
-          ' - De tu dependiente voy a necesitar, nombre completo, número de social security y fecha de nacimiento';
-        /*    '\n           • Nombre Completo'+
-        '\n           • Número de social security'+
-        '\n           • Fecha de nacimiento' */
-
-        this.generalText = this.generalText + dependents;
-      }
-
       //DATOS PERSONALES
-      if (this.form.getRawValue().information) {
+      /* if (this.form.getRawValue().information) {
         var personal =
           '\n' +
           `\n Datos personales${
@@ -174,29 +204,50 @@ export class AppComponent {
               : ''
           }:` +
           ' nombre completo, número de social, dirección de residencia, fecha de nacimiento, ocupacion y correo electrónico' +
-          /* '\n           •    Nombre Completo'+
-        '\n           •	Número de social security'+
-        '\n           •	Dirección de residencia'+
-        '\n           •	Fecha de nacimiento '+
-        '\n           •	Ocupación'+
-        '\n           •	Correo electrónico'+ */
           '\n' +
           '\n Información de tu cuenta para devolución o pago de impuestos: ' +
           'número de cuenta, número de ruta, tipo de cuenta, nombre del banco';
-        /*    '\n           •    Numero de cuenta'+
-        '\n           •	Número de ruta'+
-        '\n           •	Tipo de cuenta'+
-        '\n           •	nombre del banco ' */
+
 
         this.generalText = this.generalText + personal;
-      }
+      } */
 
       //SUM GASTOS
-      if (this.form.getRawValue().expenses) {
+      //SI SE MARCA SUM DE GASTOS PARA EL PRINCIPAL PERO NO EL CONYUGUE
+      if (
+        this.form.getRawValue().expenses &&
+        !this.form.getRawValue().expensesSpouse
+      ) {
         var expenses =
           '\n' +
-          '\nTe recomiendo que realices una sumatoria de todos los gastos relacionados al trabajo por 1099 que tuviste, por ejemplo, comidas, gas, telefonía, gastos relacionados al automóvil que utilizaste para trabajar o trasladarte al trabajo, gastos médicos, y utilities. Por medio de este sumario se pueden obtener deducciones en los impuestos' +
+          '\nTe recomiendo que realices una lista en donde totalices por categoría, los gastos de todo el año relacionados al trabajo por 1099 que tuviste, por ejemplo, comidas, gas, telefonía, gastos relacionados al automóvil que utilizaste para trabajar o trasladarte al trabajo, gastos médicos, y utilities. Por medio de esta lista de gastos se pueden obtener deducciones en los impuestos' +
           '\n \n Puedes ir a tus estados de cuenta e ir sumándolos y me das un numero';
+
+        this.generalText = this.generalText + expenses;
+      }
+
+      //SI SE MARCA SUM DE GASTOS PARA EL CONYUGUE PERO NO EL PRINCIAPAL
+      if (
+        !this.form.getRawValue().expenses &&
+        this.form.getRawValue().expensesSpouse
+      ) {
+        var expenses =
+          '\n' +
+          `\nTe recomiendo que tu ${this.spouseOption.value} realice una lista en donde totalice por categoría, los gastos de todo el año relacionados al trabajo por 1099 que tuvo, por ejemplo, comidas, gas, telefonía, gastos relacionados al automóvil que utilizo para trabajar o trasladarse al trabajo, gastos médicos, y utilities. Por medio de esta lista de gastos se pueden obtener deducciones en los impuestos` +
+          '\n \n Puede ir a sus estados de cuenta e ir sumándolos y me da un numero';
+
+        this.generalText = this.generalText + expenses;
+      }
+
+      //SI SE MARCA SUM DE GASTOS TANTO PARA EL CONYUGUE COMO PARA EL PRINCIAPAL
+      if (
+        this.form.getRawValue().expenses &&
+        this.form.getRawValue().expensesSpouse
+      ) {
+        var expenses =
+          '\n' +
+          `\nLes recomiendo tanto a ti como a tu ${this.spouseOption.value} que realicen cada uno por separado, una lista en donde totalicen por categoría, los gastos de todo el año relacionados al trabajo por 1099 que tuvieron, por ejemplo, comidas, gas, telefonía, gastos relacionados al automóvil que utilizó cada uno para trabajar o trasladarte al trabajo, gastos médicos, y utilities. Por medio de esta lista de gastos se pueden obtener deducciones en los impuestos` +
+          '\n \n Pueden ir a sus estados de cuenta e ir sumándolos y me dan un numero';
 
         this.generalText = this.generalText + expenses;
       }
@@ -209,14 +260,14 @@ export class AppComponent {
           '\n' +
           '\n- Información de la empresa: nombre de la empresa, EIN, y dirección actual';
 
-      //DECLARACION ANTERIOR
-      if (this.form.getRawValue().firstTimeCompany) {
-        this.firstTimeCompanyText = '\n- Copia de la declaración anterior de la empresa';
-      } else {
-        this.firstTimeCompanyText= '';
-      }
-      this.generalText = this.generalText + this.firstTimeCompanyText;
-
+        //DECLARACION ANTERIOR
+        if (this.form.getRawValue().firstTimeCompany) {
+          this.firstTimeCompanyText =
+            '\n- Copia de la declaración anterior de la empresa';
+        } else {
+          this.firstTimeCompanyText = '';
+        }
+        this.generalText = this.generalText + this.firstTimeCompanyText;
 
         //ES UNICO SOCIO?
         if (this.companyOption.value == 'NO') {
@@ -225,17 +276,35 @@ export class AppComponent {
             '\n- Información de cada socio: nombre completo, número de social, dirección, y porcentaje de participación';
         }
 
-         //QUIERE CONTABILIDAD?
-         if (this.companyAccounting.value == 'SI') {
+        //QUIERE CONTABILIDAD?
+        if (this.companyAccounting.value == 'SI') {
           this.generalText =
             this.generalText +
-            '\n- Estados de cuenta de las cuentas bancarias y tarjetas de crédito asociadas a la empresa';
+            '\n- Estados de cuenta de las cuentas bancarias y tarjetas de crédito asociadas a la empresa de los últimos 3 meses para darte una cotización';
         } else {
           this.generalText =
-          this.generalText +
-          '\n- Estados financieros o resumen de Ingresos y gastos de la empresa';
+            this.generalText +
+            '\n- Estados financieros o resumen de Ingresos y gastos de la empresa (De todo el año)';
         }
+
+        //COMPRA Y VENTA DE ACCIONES
+        if (this.form.getRawValue().buyAndSell) {
+          this.generalText =
+            this.generalText +
+            '\n- Descarga y compartenos el formulario 1099-b por la compra y venta de acciones';
+        }
+
+        //CRIPTO
+        /*  if (this.form.getRawValue().cripto) {
+        this.generalText =
+            this.generalText + '\n- Descarga y compartenos el formulario 1099-b por la compra y venta de acciones'
+
+      } */
       }
+
+      this.generalText =
+        this.generalText +
+        '\n\n- Si existe algún otro ingreso, gasto o dato relevante que pueda afectar su declaración de impuestos y no haya sido informado, por favor comuníquelo por este medio';
 
       this.form.patchValue({
         message: this.generalText,

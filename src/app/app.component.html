@@ -29,6 +29,20 @@
           </div>
         </div>
 
+        <!-- DEPENDIENTES -->
+        <div class="flex justify-between mt-5">
+          <label class="form-label">Tiene dependientes </label>
+          <div>
+            <input
+              type="checkbox"
+              formControlName="dependents"
+              placeholder=""
+              class="ml-5 mt-1"
+              (click)="onClick()"
+            />
+          </div>
+        </div>
+
         <!-- DECLARACION EN CONJUNTO -->
         <div class="flex justify-between mt-3">
           <label class="form-label">Declara en conjunto </label>
@@ -97,6 +111,23 @@
               </div>
             </div>
 
+            @if (f1099.value){
+
+              <!-- SUMARIO GASTOS -->
+              <div class="flex justify-between text-xs pl-2">
+                <label class="form-label">Sumario Gastos </label>
+                <div>
+                  <input
+                    type="checkbox"
+                    formControlName="expenses"
+                    placeholder=""
+                    class="ml-5 mt-1"
+                    (click)="onClick()"
+                  />
+                </div>
+              </div>
+              }
+
             <!-- FORMAS DE INGRESO CONYUGUE -->
             @if (join){
             <label
@@ -131,6 +162,23 @@
                   />
                 </div>
               </div>
+
+              @if (spouseF1099.value){
+
+                <!-- SUMARIO GASTOS -->
+                <div class="flex justify-between text-xs pl-2">
+                  <label class="form-label">Sumario Gastos </label>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="expensesSpouse"
+                      placeholder=""
+                      class="ml-5 mt-1"
+                      (click)="onClick()"
+                    />
+                  </div>
+                </div>
+                }
             </div>
 
             }
@@ -167,22 +215,8 @@
         </div>
         }
 
-        <!-- DEPENDIENTES -->
-        <div class="flex justify-between mt-5">
-          <label class="form-label">Tiene dependientes </label>
-          <div>
-            <input
-              type="checkbox"
-              formControlName="dependents"
-              placeholder=""
-              class="ml-5 mt-1"
-              (click)="onClick()"
-            />
-          </div>
-        </div>
-
         <!-- DATOS PERSONALES -->
-        <div class="flex justify-between mt-5">
+        <!--    <div class="flex justify-between mt-5">
           <label class="form-label">Datos personales </label>
           <div>
             <input
@@ -193,21 +227,7 @@
               (click)="onClick()"
             />
           </div>
-        </div>
-
-        <!-- SUMARIO GASTOS -->
-        <div class="flex justify-between mt-5">
-          <label class="form-label">Sumario Gastos </label>
-          <div>
-            <input
-              type="checkbox"
-              formControlName="expenses"
-              placeholder=""
-              class="ml-5 mt-1"
-              (click)="onClick()"
-            />
-          </div>
-        </div>
+        </div> -->
 
         <!-- EMRPESA -->
         <label
@@ -234,7 +254,9 @@
         <div class="flex flex-col pl-2 mt-3">
           <!-- DECLARACION ANTERIOR EMPRESA -->
           <div class="flex justify-between">
-            <label class="form-label text-sm">Ha declarado anteriormente </label>
+            <label class="form-label text-sm"
+              >Ha declarado anteriormente
+            </label>
             <div>
               <input
                 type="checkbox"
@@ -280,6 +302,35 @@
               }}</label>
             </div>
           </div>
+
+        <!-- COMPRO O VENDIO ACCIONES -->
+        <div class="flex justify-between mt-5">
+          <label class="form-label">Compró o vendió acciones? </label>
+          <div>
+            <input
+              type="checkbox"
+              formControlName="buyAndSell"
+              placeholder=""
+              class="ml-5 mt-1"
+              (click)="onClick()"
+            />
+          </div>
+        </div>
+
+        <!-- CRIPTOMONEDAS -->
+        <div class="flex justify-between mt-5">
+          <label class="form-label">Invirtió en Criptomonedas? </label>
+          <div>
+            <input
+              type="checkbox"
+              formControlName="cripto"
+              placeholder=""
+              class="ml-5 mt-1"
+              (click)="onClick()"
+            />
+          </div>
+        </div>
+
         </div>
         }
       </div>
