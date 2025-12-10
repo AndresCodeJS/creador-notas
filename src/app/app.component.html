@@ -215,6 +215,20 @@
         </div>
         }
 
+           <!-- COMPRO O VENDIO ACCIONES -->
+        <div class="flex justify-between mt-5">
+          <label class="form-label">Compró o vendió acciones? </label>
+          <div>
+            <input
+              type="checkbox"
+              formControlName="buyAndSell"
+              placeholder=""
+              class="ml-5 mt-1 mb-10"
+              (click)="onClick()"
+            />
+          </div>
+        </div>
+
         <!-- DATOS PERSONALES -->
         <!--    <div class="flex justify-between mt-5">
           <label class="form-label">Datos personales </label>
@@ -303,22 +317,8 @@
             </div>
           </div>
 
-        <!-- COMPRO O VENDIO ACCIONES -->
-        <div class="flex justify-between mt-5">
-          <label class="form-label">Compró o vendió acciones? </label>
-          <div>
-            <input
-              type="checkbox"
-              formControlName="buyAndSell"
-              placeholder=""
-              class="ml-5 mt-1"
-              (click)="onClick()"
-            />
-          </div>
-        </div>
-
         <!-- CRIPTOMONEDAS -->
-        <div class="flex justify-between mt-5">
+        <!-- <div class="flex justify-between mt-5">
           <label class="form-label">Invirtió en Criptomonedas? </label>
           <div>
             <input
@@ -329,7 +329,7 @@
               (click)="onClick()"
             />
           </div>
-        </div>
+        </div> -->
 
         </div>
         }

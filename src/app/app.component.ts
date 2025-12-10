@@ -146,12 +146,12 @@ export class AppComponent {
         this.generalText =
           this.generalText +
           '\n ' +
-          `\n - Tus formas de ingreso por W2 ${
+          `\n- Tus formas de ingreso por W2 ${
             this.form.getRawValue().f1099 ? 'y 1099' : ''
           }`;
       } else if (this.form.getRawValue().f1099) {
         this.generalText =
-          this.generalText + `\n\n - Tus formas de ingreso por 1099`;
+          this.generalText + `\n\n- Tus formas de ingreso por 1099`;
       }
 
       //DELCARACION CONJUNTA
@@ -161,23 +161,30 @@ export class AppComponent {
         if (this.form.getRawValue().spouseW2) {
           this.generalText =
             this.generalText +
-            `\n - Las formas de ingreso por W2 ${
+            `\n- Las formas de ingreso por W2 ${
               this.form.getRawValue().spouseF1099 ? 'y 1099' : ''
             } de tu ${this.spouseOption.value}`;
         } else if (this.form.getRawValue().spouseF1099) {
           this.generalText =
             this.generalText +
-            `\n - Las formas de ingreso por 1099 de tu ${this.spouseOption.value}`;
+            `\n- Las formas de ingreso por 1099 de tu ${this.spouseOption.value}`;
         }
       } else {
         this.join = false;
       }
 
+      //COMPRA Y VENTA DE ACCIONES
+        if (this.form.getRawValue().buyAndSell) {
+          this.generalText =
+            this.generalText +
+            '\n- Descarga y compartenos el formulario 1099-b por la compra y venta de acciones';
+        }
+
       //SEGURO MEDICO
       if (this.form.getRawValue().f1095A) {
         this.medical =
           '\n' +
-          ' - La forma 1095A del seguro médico, puedes solicitarla a tu corredor de seguros';
+          '- La forma 1095A del seguro médico, puedes solicitarla a tu corredor de seguros';
 
         if (this.form.getRawValue().steps) {
           this.medical =
@@ -287,12 +294,7 @@ export class AppComponent {
             '\n- Estados financieros o resumen de Ingresos y gastos de la empresa (De todo el año)';
         }
 
-        //COMPRA Y VENTA DE ACCIONES
-        if (this.form.getRawValue().buyAndSell) {
-          this.generalText =
-            this.generalText +
-            '\n- Descarga y compartenos el formulario 1099-b por la compra y venta de acciones';
-        }
+
 
         //CRIPTO
         /*  if (this.form.getRawValue().cripto) {
@@ -304,6 +306,7 @@ export class AppComponent {
 
       this.generalText =
         this.generalText +
+        '\n\n- Compraste o vendiste criptomonedas?'+
         '\n\n- Si existe algún otro ingreso, gasto o dato relevante que pueda afectar su declaración de impuestos y no haya sido informado, por favor comuníquelo por este medio';
 
       this.form.patchValue({
